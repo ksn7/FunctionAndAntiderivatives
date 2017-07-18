@@ -43,7 +43,7 @@ $(function () {
 <script type="text/x-sage">
 
 @interact(layout = [ ['func', 'n'], ['x_min', 'x_max'], ['y_min', 'y_max'], ['c', 'labels'] ])
-def graph_deriv( func = input_box( default = x, label = "function", width = 20),
+def graph_antid( func = input_box( default = x, label = "function", width = 20),
         x_min = input_box( default = -4, label = "x min", width = 5),
         x_max = input_box( default = 4, label = "x max", width = 5),
         y_min = input_box( default = -2, label = "y min", width = 5),
@@ -52,20 +52,34 @@ def graph_deriv( func = input_box( default = x, label = "function", width = 20),
         c = slider(-10, 10, step_size = 0.05, default = 1, label = "c"), 
         labels = False ): 
     
+    # Set up
     f(x) = func.function(x)         
     graph = point((0, 0)) 
     point1 = point( (0, 0) )
-       
+    
+    # If labelling the graphs, run this version   
     if labels == True:
+        
+        # Need an initial old_index, so picked a color I want to avoid
         old_index = 4
+        
+        # For each antiderivative
         for j in range(n+1):
+            
+            # Pick a new color index and make sure it's different
             index = randrange(0,140)
             if index != old_index :
+                
+                # Integrate the appropriate number of times
                 if not j == 0:
                     for k in range(j+1) :
                         f = integral(f, x)
+                        
+                # Plot the antiderivative
                 deriv = plot( f, (x, x_min, x_max), ymin = y_min, ymax = y_max, thickness = 2,
-                    legend_label = "Derivative " + str(j), color = sorted(colors)[index] )
+                    legend_label = "Antiderivative " + str(j), color = sorted(colors)[index] )
+                    
+                # Plot points appropriately for constant or non-constant antiderivative
                 if f.has(x):
                     if (x_min <= c) and (c <= x_max):
                         point1 = point( (c, f(c)), size = 30, color = 'green' )
@@ -75,20 +89,35 @@ def graph_deriv( func = input_box( default = x, label = "function", width = 20),
                         point1 = point( (c, f), size = 30, color = 'green' )
                     print "f" + "'"*j + "(c) = " + str(f)
                 graph += deriv + point1
+                
             else:
+                # Re-iterate, but make n bigger so it still prints the right number of antiderivatives
                 n = n+1
             old_index = index
-            
+    
+    # No labels        
     else:
+        
+        # Initial old index
         old_index = 4
+        
+        # For each antiderivative
         for j in range(n+1):
+            
+            # Pick a new color index and make sure it's different
             index = randrange(0,140)
             if index != old_index :
+                
+                # Integrate the appropriate number of times
                 if not j == 0 :
                     for k in range(j+1) :
                         f = integral(f, x)
+                        
+                # Plot the antiderivative
                 deriv = plot( f, (x, x_min, x_max), ymin = y_min, ymax = y_max, thickness = 2,
                     color = sorted(colors)[index] )
+                    
+                # Plot points appropriately for constant or non-constant antiderivative
                 if f.has(x):
                     if (x_min <= c) and (c <= x_max):
                         point1 = point( (c, f(c)), size = 30, color = 'green' )
@@ -98,16 +127,19 @@ def graph_deriv( func = input_box( default = x, label = "function", width = 20),
                         point1 = point( (c, f), size = 30, color = 'green' )
                     print "f" + "'"*j + "(c) = " + str(f)
                 graph += deriv + point1
+                
             else:
+                # Re-iterate, but make n bigger so it still prints the right number of antiderivatives
                 n = n + 1
             old_index = index
-        
+    
+    # Show graph    
     graph.show()
 
 </script>
 </div>
 
 <hr>
-Last modified on July 11th, 2017.
+Last modified on July 17th, 2017.
 </body>
 </html>
