@@ -56,6 +56,7 @@ def graph_antid( func = input_box( default = x, label = "function", width = 20),
     f(x) = func.function(x)         
     graph = point((0, 0)) 
     point1 = point( (0, 0) )
+    text1 = ""
     
     # If labelling the graphs, run this version   
     if labels == True:
@@ -83,11 +84,11 @@ def graph_antid( func = input_box( default = x, label = "function", width = 20),
                 if f.has(x):
                     if (x_min <= c) and (c <= x_max):
                         point1 = point( (c, f(c)), size = 30, color = 'green' )
-                    print "f" + "'"*j + "(c) = " + str(f(c))
+                    text1 += "f" + "'"*j + "(c) = " + str(f(c)) + "\n"
                 else:
                     if (x_min <= c) and (c <= x_max):
                         point1 = point( (c, f), size = 30, color = 'green' )
-                    print "f" + "'"*j + "(c) = " + str(f)
+                    text1 += "f" + "'"*j + "(c) = " + str(f) + "\n"
                 graph += deriv + point1
                 
             else:
@@ -121,11 +122,11 @@ def graph_antid( func = input_box( default = x, label = "function", width = 20),
                 if f.has(x):
                     if (x_min <= c) and (c <= x_max):
                         point1 = point( (c, f(c)), size = 30, color = 'green' )
-                    print "f" + "'"*j + "(c) = " + str(f(c))
+                    text1 += "f" + "'"*j + "(c) = " + str(f(c)) + "\n"
                 else:
                     if (x_min <= c) and (c <= x_max):
                         point1 = point( (c, f), size = 30, color = 'green' )
-                    print "f" + "'"*j + "(c) = " + str(f)
+                    text1 += "f" + "'"*j + "(c) = " + str(f) + "\n"
                 graph += deriv + point1
                 
             else:
@@ -133,13 +134,14 @@ def graph_antid( func = input_box( default = x, label = "function", width = 20),
                 n = n + 1
             old_index = index
     
-    # Show graph    
+    # Print values and show graph   
+    pretty_print( text1 ) 
     graph.show()
 
 </script>
 </div>
 
 <hr>
-Last modified on July 17th, 2017.
+Last modified on July 24th, 2017.
 </body>
 </html>
