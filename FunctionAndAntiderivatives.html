@@ -34,7 +34,7 @@ $(function () {
 </script>
 
 <div class="latex">
-    \textrm{This demo shows a function and its antiderivatives. Adjust the slider c to see the value of each function at that point.}
+    \textrm{This demo shows a function and its antiderivative with a range of values for c.}
 </div>
 
 <hr>
@@ -42,106 +42,27 @@ $(function () {
 <div class="compute">
 <script type="text/x-sage">
 
-@interact(layout = [ ['func', 'n'], ['x_min', 'x_max'], ['y_min', 'y_max'], ['c', 'labels'] ])
-def graph_antid( func = input_box( default = x, label = "function", width = 20),
-        x_min = input_box( default = -4, label = "x min", width = 5),
-        x_max = input_box( default = 4, label = "x max", width = 5),
-        y_min = input_box( default = -2, label = "y min", width = 5),
-        y_max = input_box( default = 8, label = "y max", width = 5),
-        n = input_box( default = 2, label = "Number of derivatives", width = 20), 
-        c = slider(-10, 10, step_size = 0.05, default = 1, label = "c"), 
-        labels = False ): 
+@interact( layout=[ ['f'], ['x_min', 'x_max', 'y_min', 'y_max'] ])
+def graph_antid( f = input_box( default = x, label = "f(x) = ", width = 20 ), 
+        x_min = input_box( default = -2, label = "x min", width = 5 ), 
+        x_max = input_box( default = 2, label = "x max", width = 5 ), 
+        y_min = input_box( default = -2, label = "y min", width = 5 ), 
+        y_max = input_box( default = 6, label = "y max", width = 5 ) ):
+    F = integral( f )
+    c = y_min
+
+    graph = plot( f, x_min, x_max, ymin = y_min, ymax = y_max )
+
+    while c < y_max :
+        graph += plot( F + c, x_min, x_max, ymin = y_min, ymax = y_max, color = "red" )
+        c += 1
     
-    # Set up
-    f(x) = func.function(x)         
-    graph = point((0, 0)) 
-    point1 = point( (0, 0) )
-    text1 = ""
-    
-    # If labelling the graphs, run this version   
-    if labels == True:
-        
-        # Need an initial old_index, so picked a color I want to avoid
-        old_index = 4
-        
-        # For each antiderivative
-        for j in range(n+1):
-            
-            # Pick a new color index and make sure it's different
-            index = randrange(0,140)
-            if index != old_index :
-                
-                # Integrate the appropriate number of times
-                if not j == 0:
-                    for k in range(j+1) :
-                        f = integral(f, x)
-                        
-                # Plot the antiderivative
-                deriv = plot( f, (x, x_min, x_max), ymin = y_min, ymax = y_max, thickness = 2,
-                    legend_label = "Antiderivative " + str(j), color = sorted(colors)[index] )
-                    
-                # Plot points appropriately for constant or non-constant antiderivative
-                if f.has(x):
-                    if (x_min <= c) and (c <= x_max):
-                        point1 = point( (c, f(c)), size = 30, color = 'green' )
-                    text1 += "f" + "'"*j + "(c) = " + str(f(c)) + "\n"
-                else:
-                    if (x_min <= c) and (c <= x_max):
-                        point1 = point( (c, f), size = 30, color = 'green' )
-                    text1 += "f" + "'"*j + "(c) = " + str(f) + "\n"
-                graph += deriv + point1
-                
-            else:
-                # Re-iterate, but make n bigger so it still prints the right number of antiderivatives
-                n = n+1
-            old_index = index
-    
-    # No labels        
-    else:
-        
-        # Initial old index
-        old_index = 4
-        
-        # For each antiderivative
-        for j in range(n+1):
-            
-            # Pick a new color index and make sure it's different
-            index = randrange(0,140)
-            if index != old_index :
-                
-                # Integrate the appropriate number of times
-                if not j == 0 :
-                    for k in range(j+1) :
-                        f = integral(f, x)
-                        
-                # Plot the antiderivative
-                deriv = plot( f, (x, x_min, x_max), ymin = y_min, ymax = y_max, thickness = 2,
-                    color = sorted(colors)[index] )
-                    
-                # Plot points appropriately for constant or non-constant antiderivative
-                if f.has(x):
-                    if (x_min <= c) and (c <= x_max):
-                        point1 = point( (c, f(c)), size = 30, color = 'green' )
-                    text1 += "f" + "'"*j + "(c) = " + str(f(c)) + "\n"
-                else:
-                    if (x_min <= c) and (c <= x_max):
-                        point1 = point( (c, f), size = 30, color = 'green' )
-                    text1 += "f" + "'"*j + "(c) = " + str(f) + "\n"
-                graph += deriv + point1
-                
-            else:
-                # Re-iterate, but make n bigger so it still prints the right number of antiderivatives
-                n = n + 1
-            old_index = index
-    
-    # Print values and show graph   
-    pretty_print( text1 ) 
     graph.show()
 
 </script>
 </div>
 
 <hr>
-Last modified on July 24th, 2017.
+Last modified on July 25th, 2017.
 </body>
 </html>
