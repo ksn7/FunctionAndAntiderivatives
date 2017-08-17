@@ -43,11 +43,11 @@ $(function () {
 <script type="text/x-sage">
 
 @interact( layout=[ ['func'], ['x_min', 'x_max', 'y_min', 'y_max'] ])
-def graph_antid( func = input_box( default = x, label = "f(x) = ", width = 20 ), 
-        x_min = input_box( default = -2, label = "x min", width = 5 ), 
-        x_max = input_box( default = 2, label = "x max", width = 5 ), 
-        y_min = input_box( default = -2, label = "y min", width = 5 ), 
-        y_max = input_box( default = 6, label = "y max", width = 5 ) ):
+def graph_antid( func = input_box( default = x, label = "$f(x) = $", width = 20 ), 
+        x_min = input_box( default = -2, label = "$x_{min}$", width = 5 ), 
+        x_max = input_box( default = 2, label = "$x_{max}$", width = 5 ), 
+        y_min = input_box( default = -2, label = "$y_{min}$", width = 5 ), 
+        y_max = input_box( default = 6, label = "$y_{max}$", width = 5 ) ):
     f = func.function(x)        
             
     F = integral( f, x )
@@ -65,6 +65,6 @@ def graph_antid( func = input_box( default = x, label = "f(x) = ", width = 20 ),
 </div>
 
 <hr>
-Last modified on July 26th, 2017.
+Last modified on August 17th, 2017.
 </body>
 </html>
